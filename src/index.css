@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* ── Theme Variables ──────────────────────────────── */
+.theme-dark {
+  --c-bg:         #071515;
+  --c-bg-alt:     #040e0e;
+  --c-card:       #0d2020;
+  --c-card-dark:  #051414;
+  --c-period:     rgba(0,63,61,0.45);
+  --c-tech:       rgba(0,63,61,0.55);
+  --c-text1:      #E2E9ED;
+  --c-text2:      #CBDFD9;
+  --c-m70:        rgba(203,223,217,0.70);
+  --c-m60:        rgba(203,223,217,0.60);
+  --c-m50:        rgba(203,223,217,0.50);
+  --c-m40:        rgba(203,223,217,0.40);
+  --c-m30:        rgba(203,223,217,0.30);
+  --c-m25:        rgba(203,223,217,0.25);
+  --c-border:     rgba(0,130,143,0.22);
+  --c-border-h:   rgba(0,130,143,0.55);
+  --c-border-th:  rgba(0,130,143,0.15);
+  --c-nav:        rgba(7,21,21,0.96);
+  --c-input:      rgba(7,21,21,0.70);
+  --c-dot:        #071515;
+  --c-icon-bg:    rgba(7,21,21,0.60);
+  --c-date-bg:    rgba(7,21,21,0.40);
+  --c-nav-pill:   rgba(13,32,32,0.60);
+}
+
+.theme-light {
+  --c-bg:         #f0fafa;
+  --c-bg-alt:     #dff0f0;
+  --c-card:       #ffffff;
+  --c-card-dark:  #cce8e8;
+  --c-period:     rgba(0,130,143,0.10);
+  --c-tech:       rgba(0,130,143,0.08);
+  --c-text1:      #082020;
+  --c-text2:      #163535;
+  --c-m70:        rgba(8,32,32,0.75);
+  --c-m60:        rgba(8,32,32,0.65);
+  --c-m50:        rgba(8,32,32,0.55);
+  --c-m40:        rgba(8,32,32,0.45);
+  --c-m30:        rgba(8,32,32,0.35);
+  --c-m25:        rgba(8,32,32,0.28);
+  --c-border:     rgba(0,130,143,0.25);
+  --c-border-h:   rgba(0,130,143,0.60);
+  --c-border-th:  rgba(0,130,143,0.13);
+  --c-nav:        rgba(240,250,250,0.96);
+  --c-input:      rgba(255,255,255,0.85);
+  --c-dot:        #f0fafa;
+  --c-icon-bg:    rgba(255,255,255,0.70);
+  --c-date-bg:    rgba(255,255,255,0.55);
+  --c-nav-pill:   rgba(220,242,242,0.65);
+}
+
+/* ── Animated pill border — rotating gradient technique ── */
+@keyframes nav-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 1. Outer wrapper: clips everything to pill shape */
+.nav-pill-wrapper {
+  position: relative;
+  border-radius: 9999px;
+  padding: 2px;          /* ← border thickness */
+  overflow: hidden;
+  display: inline-flex;
+}
+
+/* 2. The spinning gradient sits behind everything */
+.nav-pill-spinner {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    #00828F 0%,
+    #E9B769 25%,
+    #CBDFD9 50%,
+    #E9B769 75%,
+    #00828F 100%
+  );
+  animation: nav-spin 5s linear infinite;
+  z-index: 0;
+}
+
+/* 3. Inner pill: the actual visible background, sits above spinner */
+.nav-pill-inner {
+  position: relative;
+  z-index: 1;
+  border-radius: 9999px;
+  background: var(--c-nav-pill);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 20px;
+}
+
+
+/* ── Base ─────────────────────────────────────────── */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--c-bg, #071515);
+  color: var(--c-text1, #E2E9ED);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--c-bg, #071515); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00828F, #E9B769);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #E9B769, #00828F);
+}
+
+/* Navbar link gradient-text + bold + scale on hover */
+.nav-link-hover {
+  position: relative;
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+.nav-link-hover:hover,
+.nav-link-hover.active-link {
+  background: linear-gradient(90deg, #00828F, #E9B769);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  transform: scale(1.12);
+}
+
+/* Sun / Moon toggle — gradient border on hover */
+.theme-toggle-btn {
+  border: 1.5px solid transparent;
+  background:
+    var(--c-card, #0d2020) padding-box,
+    var(--c-border, rgba(0,130,143,0.22)) border-box;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.theme-toggle-btn:hover {
+  background:
+    var(--c-card, #0d2020) padding-box,
+    linear-gradient(135deg, #00828F, #E9B769) border-box;
+  transform: scale(1.1);
+}
+
+
+/* ── Utilities ────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #00828F, #E9B769);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,130,143,0.18);
+}
+
+/* Smooth theme transitions on all cards */
+.theme-dark *, .theme-light * {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
